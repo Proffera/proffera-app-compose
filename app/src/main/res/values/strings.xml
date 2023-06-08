@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Proffera</string>
+    <string name="placeholder_search">Cari Proyek!</string>
 </resources>
