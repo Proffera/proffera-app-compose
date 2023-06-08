@@ -30,114 +30,62 @@ fun HomeProcurement(
     procurement: Procurement,
     modifier: Modifier = Modifier,
 ) {
-//    var isTooltipVisible by remember {
-//        mutableStateOf(false)
-//    }
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = WhiteSmoke,
+            containerColor = MaterialTheme.colorScheme.background,
         ),
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+//            Wrap icon and wrapping row consist of image and title
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(Modifier.weight(1f)) {
+//                Wrap image and title in a row
+                Row(
+                    modifier = Modifier
+                        .width(width = 285.dp)
+                ) {
                     Image(
                         painter = painterResource(procurement.pictureProject),
                         contentDescription = "Project Picture",
-                        contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .height(50.dp)
-                            .width(50.dp)
+                            .size(size = 50.dp)
                             .clip(CircleShape)
                     )
+                    Spacer(
+                        modifier = Modifier
+                            .width(width = 16.dp)
+                    )
+                    Column {
+                        Text(
+                            text = procurement.projectName,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Dark,
+                            textAlign = TextAlign.Start,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            text = "${procurement.instansiName} - ${procurement.city}",
+                            style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
+                            color = LightGray,
+                            textAlign = TextAlign.Start,
+                        )
+                    }
                 }
                 Icon(
                     imageVector = Icons.Default.BookmarkBorder,
                     contentDescription = "Icon bookmark",
+                    modifier = Modifier
+                        .height(24.dp)
+                        .weight(1f) // Added weight modifier
+                        .wrapContentWidth(Alignment.End)
                 )
-            }
-            Text(
-                text = procurement.instansiName,
-                style = MaterialTheme.typography.titleSmall.copy(color = Gray),
-                modifier = Modifier.padding(top = 24.dp)
-            )
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Box(Modifier.weight(0.5f)) {
-                    Text(
-                        text = procurement.projectName,
-                        style = MaterialTheme.typography.titleLarge,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                    )
-                }
-                Text(
-                    text = procurement.costEstimate,
-                    style = MaterialTheme.typography.titleLarge.copy(color = Dark),
-                )
-            }
-            Text(
-                text = procurement.description,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyMedium,
-            )
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .width(1.dp)
-                    .padding(top = 8.dp),
-            )
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Box(Modifier.weight(1f)) {
-                    Card(
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(IntrinsicSize.Min)
-                            .padding(top = 16.dp),
-                        shape = RoundedCornerShape(8.dp),
-                        colors = CardDefaults.cardColors(containerColor = Blue),
-                    ) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = procurement.status,
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Medium
-                                ),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(bottom = 4.dp)
-                            )
-                        }
-                    }
-                }
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(top = 16.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.HourglassEmpty,
-                        contentDescription = "deadline"
-                    )
-                    Text(
-                        text = procurement.deadlineEstimate,
-                        style = MaterialTheme.typography.titleSmall.copy(color = Dark),
-                    )
-                }
             }
         }
     }
@@ -147,17 +95,20 @@ fun HomeProcurement(
 @Preview(showBackground = true, device = Devices.PIXEL_4)
 fun HomeProcurementPreview() {
     ProfferaTheme {
-        HomeProcurement(
-            procurement = Procurement(
-                pictureProject = R.drawable.dikti,
-                instansiName = "Kemristekdikti",
-                projectName = "Pembangunan Technopark",
-                costEstimate = "Rp.500 Juta",
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. t enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                status = "Dalam Proses",
-                deadlineEstimate = "6 Bulan",
-            ),
-            modifier = Modifier.padding(16.dp)
-        )
+        Surface(color = WhiteSmoke) {
+            HomeProcurement(
+                procurement = Procurement(
+                    pictureProject = R.drawable.dikti,
+                    instansiName = "Kemristekdikti",
+                    projectName = "Pembangunan Technopark",
+                    city = "Jakarta",
+                    costEstimate = "Rp.500 Juta",
+                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. t enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    status = "Dalam Proses",
+                    deadlineEstimate = "6 Bulan",
+                ),
+                modifier = Modifier.padding(16.dp)
+            )
+        }
     }
 }

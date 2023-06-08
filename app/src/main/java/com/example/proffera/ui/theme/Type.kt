@@ -13,8 +13,8 @@ val Typography = Typography(
     headlineMedium = TextStyle(
         fontFamily = FontFamily(Font(R.font.n_sans_bold)),
         fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
-        lineHeight = 24.sp,
+        fontSize = 24.sp,
+        lineHeight = 33.sp,
         letterSpacing = 0.sp
     ),
     headlineSmall = TextStyle(
@@ -27,8 +27,15 @@ val Typography = Typography(
     titleLarge = TextStyle(
         fontFamily = FontFamily(Font(R.font.n_sans_bold)),
         fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        lineHeight = 33.sp,
+        letterSpacing = 0.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = FontFamily(Font(R.font.n_sans_bold)),
+        fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
-        lineHeight = 24.sp,
+        lineHeight = 22.sp,
         letterSpacing = 0.sp
     ),
     titleSmall = TextStyle(
@@ -44,5 +51,12 @@ val Typography = Typography(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.5.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = FontFamily(Font(R.font.n_sans_light)),
+        fontWeight = FontWeight.Light,
+        fontSize = 14.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.sp
     ),
 )
