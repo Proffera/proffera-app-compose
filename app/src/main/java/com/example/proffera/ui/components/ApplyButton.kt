@@ -31,14 +31,14 @@ fun ApplyButton(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(containerColor = DarkOrange),
+        shape = RoundedCornerShape(12.dp),
         modifier = modifier
             .width(220.dp)
             .height(52.dp)
             .shadow(
-                2.dp,
-                shape = RoundedCornerShape(25.dp),
-                ambientColor = DarkOrange.copy(0.25f),
-                spotColor = DarkOrange.copy(0.25f)
+                4.dp,
+                shape = RoundedCornerShape(12.dp),
+                ambientColor = DarkOrange.copy(alpha = 0.25f)
             )
 
     ) {

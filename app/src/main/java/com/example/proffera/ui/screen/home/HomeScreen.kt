@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.proffera.data.remote.model.Procurement
 import com.example.proffera.data.remote.model.dummyProcurement
+import com.example.proffera.ui.components.DownloadButton
 import com.example.proffera.ui.components.HomeProcurement
 import com.example.proffera.ui.components.Search
 import com.example.proffera.ui.theme.ProfferaTheme
@@ -64,6 +65,9 @@ fun HomeScreenContent(modifier: Modifier = Modifier) {
                 .padding(top = 8.dp)
                 .width(230.dp)
         )
+        DownloadButton(Modifier.size(60.dp)) {
+
+        }
         Search(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
         HomeCardProcurement(dummyProcurement)
     }
