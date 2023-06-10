@@ -110,21 +110,23 @@ fun DetailContent(
                 ) {
                     Row(
                         Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 40.dp),
+                            .fillMaxWidth(),
+//                            .padding(horizontal = 40.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         ProcurementDescCard(
                             name = "Vendor",
                             organization = "PT Wayne Enterprise",
-                            imageIcon = R.drawable.ic_enterprise
+                            imageIcon = R.drawable.ic_enterprise,
+                            modifier = Modifier.padding(start = 25.dp)
                         ) {
 
                         }
-                        Spacer(modifier = Modifier.width(20.dp))
                         ProcurementDescCard(
                             name = "Tender",
                             organization = "Kemenristekdikti",
-                            imageIcon = R.drawable.ic_info
+                            imageIcon = R.drawable.ic_info,
+                            modifier = Modifier.padding(end = 25.dp)
                         ) {
 
                         }
