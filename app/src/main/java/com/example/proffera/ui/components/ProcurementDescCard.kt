@@ -1,33 +1,29 @@
 package com.example.proffera.ui.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BookmarkBorder
-import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.proffera.R
-import com.example.proffera.ui.theme.*
+import com.example.proffera.ui.theme.ProfferaTheme
+import com.example.proffera.ui.theme.White
+import com.example.proffera.ui.theme.WhiteSmoke
 
 @Composable
 fun ProcurementDescCard(
     name: String,
     organization: String,
-    icon: Int,
+    @DrawableRes imageIcon: Int,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -53,7 +49,7 @@ fun ProcurementDescCard(
                     .width(width = 120.dp)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.ic_info),
+                    painter = painterResource(imageIcon),
                     contentDescription = "icon",
                     modifier = Modifier
                         .size(size = 20.dp)
@@ -98,9 +94,9 @@ fun ProcurementDescCardPreview() {
     ProfferaTheme() {
         Surface(color = WhiteSmoke) {
             ProcurementDescCard(
-                name = "Tender",
-                organization = "Kementrian XYZ",
-                icon = R.drawable.ic_info,
+                "Tender",
+                "Kementrian XYZ",
+                R.drawable.ic_info,
                 onClick = {},
                 modifier = Modifier.padding(16.dp)
             )
