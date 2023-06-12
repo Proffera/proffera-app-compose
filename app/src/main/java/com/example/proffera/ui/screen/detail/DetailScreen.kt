@@ -8,6 +8,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,12 +18,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.proffera.R
+import com.example.proffera.ui.components.ApplyButton
+import com.example.proffera.ui.components.DownloadButton
 import com.example.proffera.ui.components.ProcurementDescCard
 import com.example.proffera.ui.theme.*
 
@@ -37,20 +40,23 @@ fun DetailContent(
     @DrawableRes projectImage: Int,
     projectLocation: String,
     projectDescription: String,
-    projectJobs: String,
+    projectNPWP: String,
     projectContractPrice: String,
     projectExecutionTime: String,
     projectRisk: String,
     projectStatus: String,
+    onBackClick: () -> Unit,
+    onApplyClick: () -> Unit,
+    onDownloadClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
-        Modifier
+        modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
         Box(
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
         ) {
             Card(
@@ -65,14 +71,18 @@ fun DetailContent(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 8.dp),
-                    contentAlignment = Alignment.TopCenter
+                        .padding(top = 8.dp, start = 8.dp),
+                    contentAlignment = Alignment.TopStart
                 ) {
-                    Text(
-                        text = agencyName,
-                        style = MaterialTheme.typography.titleLarge.copy(color = White),
-                        textAlign = TextAlign.Center
-                    )
+                    IconButton(
+                        onClick = { /*TODO*/ },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back Button",
+                            tint = White
+                        )
+                    }
                 }
             }
             Card(
@@ -109,9 +119,8 @@ fun DetailContent(
                         .padding(top = 24.dp),
                 ) {
                     Row(
-                        Modifier
+                        modifier = Modifier
                             .fillMaxWidth(),
-//                            .padding(horizontal = 40.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         ProcurementDescCard(
@@ -132,9 +141,154 @@ fun DetailContent(
                         }
                     }
                 }
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 40.dp),
+                ) {
+                    Column {
+                        Text(
+                            text = "Deskripsi Proyek",
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.padding(start = 25.dp)
+                        )
+                        Text(
+                            text = projectDescription,
+                            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+                            modifier = Modifier.padding(horizontal = 25.dp)
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 16.dp),
+                ) {
+                    Column {
+                        Text(
+                            text = "Informasi Proyek",
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.padding(start = 25.dp)
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Pemenang:",
+                                style = MaterialTheme.typography.titleSmall.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(start = 25.dp, end = 8.dp)
+                            )
+                            Text(
+                                text = "PT Wayne Enterprise",
+                                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(end = 25.dp),
+                                color = DarkOrange
+                            )
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "No. NPWP :",
+                                style = MaterialTheme.typography.titleSmall.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(start = 25.dp, end = 8.dp)
+                            )
+                            Text(
+                                text = projectNPWP,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(end = 25.dp)
+                            )
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Nilai Kontrak :",
+                                style = MaterialTheme.typography.titleSmall.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(start = 25.dp, end = 8.dp)
+                            )
+                            Text(
+                                text = projectContractPrice,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(end = 25.dp)
+                            )
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Risiko :",
+                                style = MaterialTheme.typography.titleSmall.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(start = 25.dp, end = 8.dp)
+                            )
+                            Text(
+                                text = projectRisk,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(end = 25.dp),
+                                color = Red
+                            )
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Status :",
+                                style = MaterialTheme.typography.titleSmall.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(start = 25.dp, end = 8.dp)
+                            )
+                            Text(
+                                text = projectStatus,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(end = 25.dp),
+                                color = Blue
+                            )
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Waktu Pelaksanaan :",
+                                style = MaterialTheme.typography.titleSmall.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(start = 25.dp, end = 8.dp)
+                            )
+                            Text(
+                                text = projectExecutionTime,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(end = 25.dp)
+                            )
+                        }
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 40.dp, bottom = 16.dp),
+                ) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth(), horizontalArrangement = Arrangement.Start
+                    ) {
+                        DownloadButton(
+                            onClick = {
+                                onDownloadClick()
+                            }, modifier = Modifier.padding(start = 25.dp, top = 4.dp)
+                        )
+                        ApplyButton(
+                            text = "Daftar", onClick = {
+                                onApplyClick()
+                            }, modifier = Modifier.padding(start = 32.dp, end = 25.dp)
+                        )
+                    }
+                }
             }
             Box(
-                Modifier
+                modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(top = 80.dp)
             ) {
@@ -176,11 +330,14 @@ fun DetailScreenPreview() {
                 R.drawable.dikti,
                 "Jakarta",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. t enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                "Membangun technopark yang bagus",
+                "01.692.131.4-073.000",
                 "Rp.500jt",
                 "Juli 2023 - Desember 2023",
                 "Tinggi",
-                "Dalam Proses"
+                "Dalam Proses",
+                onBackClick = { },
+                onApplyClick = { },
+                onDownloadClick = { }
             )
         }
 

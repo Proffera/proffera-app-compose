@@ -23,12 +23,10 @@ import com.example.proffera.ui.theme.WhiteSmoke
 @Composable
 fun DownloadButton(
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     Button(
         onClick = onClick,
-        enabled = enabled,
         colors = ButtonDefaults.buttonColors(containerColor = White),
         shape = CircleShape,
         contentPadding = PaddingValues(0.dp),

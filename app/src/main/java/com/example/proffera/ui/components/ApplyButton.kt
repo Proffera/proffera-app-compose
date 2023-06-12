@@ -30,7 +30,7 @@ fun ApplyButton(
         colors = ButtonDefaults.buttonColors(containerColor = DarkOrange),
         shape = RoundedCornerShape(12.dp),
         modifier = modifier
-            .width(220.dp)
+            .width(264.dp)
             .height(52.dp)
             .shadow(
                 4.dp,
