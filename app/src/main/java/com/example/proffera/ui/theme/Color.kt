@@ -8,6 +8,7 @@ val Dark = Color(0xFF1D232E)
 val LightGray = Color(0xFFBBBBBB)
 val White = Color(0xFFFFFFFF)
 val WhiteSmoke = Color(0xFFF3F5F7)
+val LightBlue = Color(0xFFc3e7ff)
 
 // status colors
 val Gold = Color(0xFFfab020)

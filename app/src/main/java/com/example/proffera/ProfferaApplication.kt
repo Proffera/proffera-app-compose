@@ -24,7 +24,6 @@ fun ProfferaApplication(
                 AppDrawerContent(
                     drawerState = drawerState,
                     menuItems = DrawerParams.drawerButtons,
-                    isSelected = true,
                     defaultPick = Screen.HomeScreen
                 ) { onUserPickedOption ->
                     when (onUserPickedOption) {
@@ -67,9 +66,21 @@ object DrawerParams {
         ),
         AppDrawerItemInfo(
             Screen.ProfileScreen,
-            R.string.drawer_profile,
+            R.string.drawer_bookmarks,
             R.drawable.ic_info,
-            R.string.drawer_profile_description
+            R.string.drawer_bookmarks_description
+        ),
+        AppDrawerItemInfo(
+            Screen.ProfileScreen,
+            R.string.drawer_history,
+            R.drawable.ic_info,
+            R.string.drawer_history_description
+        ),
+        AppDrawerItemInfo(
+            Screen.ProfileScreen,
+            R.string.drawer_logout,
+            R.drawable.ic_info,
+            R.string.drawer_logout_description
         ),
     )
 }
