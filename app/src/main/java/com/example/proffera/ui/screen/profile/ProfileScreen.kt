@@ -19,7 +19,7 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
             AppBar(
-                drawerState = drawerState, 
+                drawerState = drawerState
             )
         }
     ) {
