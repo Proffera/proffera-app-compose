@@ -13,10 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.proffera.R
 import com.example.proffera.data.remote.model.Procurement
 import com.example.proffera.data.remote.model.dummyProcurement
 import com.example.proffera.ui.components.HomeProcurement
@@ -26,11 +28,28 @@ import com.example.proffera.ui.theme.ProfferaTheme
 import com.example.proffera.ui.theme.WhiteSmoke
 
 @Composable
-fun HomeScreen(drawerState: DrawerState, modifier: Modifier = Modifier) {
+fun HomeScreen(drawerState: DrawerState) {
     Scaffold(
-        topBar = { AppBar(drawerState = drawerState) }
+        topBar = {
+            AppBar(
+                drawerState = drawerState
+            )
+        }
     ) {
-        Column(modifier = Modifier.background(WhiteSmoke).padding(16.dp)) {
+        HomeScreenContent(dummyProcurement)
+    }
+}
+
+
+@Composable
+fun HomeScreenContent(listProcurement: List<Procurement>, modifier: Modifier = Modifier) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier
+            .background(WhiteSmoke)
+            .padding(16.dp)
+    ) {
+        item {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -38,7 +57,7 @@ fun HomeScreen(drawerState: DrawerState, modifier: Modifier = Modifier) {
             ) {
                 Box(Modifier.weight(1f)) {
                     Text(
-                        text = "Temukan Proyek Anda di Sini",
+                        text = stringResource(id = R.string.header_wording),
                         style = MaterialTheme.typography.headlineMedium,
                         textAlign = TextAlign.Start,
                         modifier = modifier
@@ -46,8 +65,8 @@ fun HomeScreen(drawerState: DrawerState, modifier: Modifier = Modifier) {
                     )
                 }
                 Image(
-                    painter = painterResource(id = com.example.proffera.R.drawable.ic_launcher_background),
-                    contentDescription = "Project Picture",
+                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    contentDescription = stringResource(id = R.string.project_picture),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .height(50.dp)
@@ -56,21 +75,7 @@ fun HomeScreen(drawerState: DrawerState, modifier: Modifier = Modifier) {
                 )
             }
             Search(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
-            HomeCardProcurement(dummyProcurement)
         }
-    }
-}
-
-
-@Composable
-fun HomeCardProcurement(
-    listProcurement: List<Procurement>,
-    modifier: Modifier = Modifier,
-) {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier
-    ) {
         items(listProcurement, key = { it.instansiName }) { procurement ->
             HomeProcurement(procurement)
         }

@@ -13,4 +13,6 @@
     <string name="drawer_bookmarks_description">Bookmarks</string>
     <string name="drawer_history">History</string>
     <string name="drawer_history_description">History</string>
+    <string name="header_wording">Temukan Proyek Anda di Sini</string>
+    <string name="project_picture">Project Picture</string>
 </resources>

@@ -12,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.proffera.R
-import com.example.proffera.ui.theme.WhiteSmoke
+import com.example.proffera.ui.theme.DarkOrange
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,7 +21,7 @@ fun AppBar(
     drawerState: DrawerState? = null,
     navigationIcon: (@Composable () -> Unit)? = null,
     @StringRes title: Int? = null,
-    appBarActions: List<AppBarAction>? = null
+    appBarActions: List<AppBarAction>? = null,
 ) {
     TopAppBar(
         title = {
@@ -32,7 +32,7 @@ fun AppBar(
                 )
             }
         },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = WhiteSmoke),
+        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = DarkOrange),
         actions = {
             appBarActions?.let {
                 for (appBarAction in it) {
@@ -46,7 +46,7 @@ fun AppBar(
             } else {
                 navigationIcon?.invoke()
             }
-        },
+        }
     )
 }
 
