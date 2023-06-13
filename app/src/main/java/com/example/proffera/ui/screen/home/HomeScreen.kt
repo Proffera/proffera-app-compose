@@ -1,16 +1,12 @@
 package com.example.proffera.ui.screen.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,49 +21,46 @@ import com.example.proffera.data.remote.model.Procurement
 import com.example.proffera.data.remote.model.dummyProcurement
 import com.example.proffera.ui.components.HomeProcurement
 import com.example.proffera.ui.components.Search
+import com.example.proffera.ui.components.appbar.AppBar
 import com.example.proffera.ui.theme.ProfferaTheme
 import com.example.proffera.ui.theme.WhiteSmoke
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
-    HomeScreenContent(modifier = modifier)
-}
-
-@Composable
-fun HomeScreenContent(modifier: Modifier = Modifier) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Box(Modifier.weight(1f)) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Icon bookmark",
+fun HomeScreen(drawerState: DrawerState, modifier: Modifier = Modifier) {
+    Scaffold(
+        topBar = { AppBar(drawerState = drawerState) }
+    ) {
+        Column(modifier = Modifier.background(WhiteSmoke).padding(16.dp)) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = 56.dp)
+            ) {
+                Box(Modifier.weight(1f)) {
+                    Text(
+                        text = "Temukan Proyek Anda di Sini",
+                        style = MaterialTheme.typography.headlineMedium,
+                        textAlign = TextAlign.Start,
+                        modifier = modifier
+                            .width(230.dp)
+                    )
+                }
+                Image(
+                    painter = painterResource(id = com.example.proffera.R.drawable.ic_launcher_background),
+                    contentDescription = "Project Picture",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .height(50.dp)
+                        .width(50.dp)
+                        .clip(CircleShape)
                 )
             }
-            Image(
-                painter = painterResource(id = com.example.proffera.R.drawable.ic_launcher_background),
-                contentDescription = "Project Picture",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .height(50.dp)
-                    .width(50.dp)
-                    .clip(CircleShape)
-            )
+            Search(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+            HomeCardProcurement(dummyProcurement)
         }
-        Text(
-            text = "Temukan Proyek Anda di Sini",
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Start,
-            modifier = modifier
-                .padding(top = 8.dp)
-                .width(230.dp)
-        )
-        Search(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
-        HomeCardProcurement(dummyProcurement)
     }
 }
+
 
 @Composable
 fun HomeCardProcurement(
@@ -90,7 +83,7 @@ fun HomeCardProcurement(
 fun HomeScreenPreview() {
     ProfferaTheme() {
         Surface(color = WhiteSmoke) {
-            HomeScreen()
+            HomeScreen(drawerState = rememberDrawerState(DrawerValue.Closed))
         }
 
     }
