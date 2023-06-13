@@ -39,7 +39,7 @@ fun <T : Enum<T>> AppDrawerContent(
             ) {
                 LazyColumn(
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(horizontal = 8.dp)
                 ) {
                     item {
                         BuildingBlocksHeadline()
@@ -50,6 +50,7 @@ fun <T : Enum<T>> AppDrawerContent(
                     items(menuItems) { item ->
                         AppDrawerItem(
                             item = item,
+                            isFirstItem = menuItems.first() == item,
                             isSelected = currentPick == item.drawerOption
                         ) { navOption ->
 

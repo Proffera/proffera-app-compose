@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -27,13 +26,14 @@ import com.example.proffera.ui.theme.*
 fun <T : Any> AppDrawerItem(
     item: AppDrawerItemInfo<T>,
     isSelected: Boolean,
+    isFirstItem: Boolean,
     onClick: (options: T) -> Unit
 ) =
     Surface(
         color = MaterialTheme.colorScheme.onPrimary,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp, start = 12.dp)
+            .padding(top = if (isFirstItem) 16.dp else 8.dp, start = 12.dp)
             .clickable { onClick(item.drawerOption) },
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -60,9 +60,9 @@ fun StyleActiveStateEnabledShowIconTrue(item: AppDrawerItemInfo<*>) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    start = 12.dp,
+                    start = 16.dp,
                     end = 24.dp,
-                    top = 16.dp,
+                    top = 12.dp,
                     bottom = 12.dp
                 )
         ) {
@@ -72,6 +72,7 @@ fun StyleActiveStateEnabledShowIconTrue(item: AppDrawerItemInfo<*>) {
                 tint = DarkBlue,
                 modifier = Modifier
                     .size(size = 24.dp)
+                    .padding(top = 4.dp)
             )
             Spacer(
                 modifier = Modifier
@@ -80,8 +81,7 @@ fun StyleActiveStateEnabledShowIconTrue(item: AppDrawerItemInfo<*>) {
             Text(
                 text = stringResource(id = item.title),
                 color = Dark,
-                lineHeight = 20.sp,
-                style = TextStyle(
+                style = MaterialTheme.typography.titleSmall.copy(
                     fontSize = 14.sp,
                     letterSpacing = 0.1.sp
                 ),
@@ -110,9 +110,9 @@ fun StyleInactiveStateEnabledShowIconTrue(item: AppDrawerItemInfo<*>) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    start = 12.dp,
+                    start = 16.dp,
                     end = 24.dp,
-                    top = 16.dp,
+                    top = 12.dp,
                     bottom = 12.dp
                 )
         ) {
@@ -122,6 +122,7 @@ fun StyleInactiveStateEnabledShowIconTrue(item: AppDrawerItemInfo<*>) {
                 tint = DarkBlue,
                 modifier = Modifier
                     .size(24.dp)
+                    .padding(top = 4.dp)
             )
             Spacer(
                 modifier = Modifier
@@ -130,8 +131,7 @@ fun StyleInactiveStateEnabledShowIconTrue(item: AppDrawerItemInfo<*>) {
             Text(
                 text = stringResource(id = item.title),
                 color = Dark,
-                lineHeight = 20.sp,
-                style = TextStyle(
+                style = MaterialTheme.typography.titleSmall.copy(
                     fontSize = 14.sp,
                     letterSpacing = 0.1.sp
                 ),
@@ -154,6 +154,6 @@ class NavigationItemProvider : PreviewParameterProvider<AppDrawerItemInfo<Screen
 @Composable
 fun NavigationItemPreview(@PreviewParameter(NavigationItemProvider::class) state: AppDrawerItemInfo<Screen>) {
     ProfferaTheme {
-        AppDrawerItem(item = state, isSelected = false, onClick = {})
+        AppDrawerItem(item = state, isSelected = false, isFirstItem = false, onClick = {})
     }
 }
