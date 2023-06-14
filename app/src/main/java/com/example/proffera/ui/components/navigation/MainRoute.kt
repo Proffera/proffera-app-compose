@@ -1,4 +1,4 @@
-package com.example.proffera.ui.components.appdrawer
+package com.example.proffera.ui.components.navigation
 
 import androidx.compose.material3.DrawerState
 import androidx.navigation.NavGraphBuilder
@@ -9,24 +9,27 @@ import com.example.proffera.ui.screen.home.HomeScreen
 import com.example.proffera.ui.screen.profile.ProfileScreen
 
 fun NavGraphBuilder.mainGraph(drawerState: DrawerState) {
-    navigation(startDestination = Screen.HomeScreen.name, route = NavRoutes.MainRoute.name) {
-        composable(Screen.HomeScreen.name) {
+    navigation(startDestination = MainScreen.HomeScreen.name, route = NavRoutes.MainRoute.name) {
+        composable(MainScreen.HomeScreen.name) {
             HomeScreen(drawerState)
         }
-        composable(Screen.ProfileScreen.name) {
+        composable(MainScreen.ProfileScreen.name) {
             ProfileScreen(drawerState)
+        }
+        composable(MainScreen.Logout.name) {
+
         }
     }
 }
 
-enum class Screen {
+enum class MainScreen {
     HomeScreen,
     DetailScreen,
     ProfileScreen,
     HistoryScreen,
     BookmarksScreen,
-    LoginScreen,
     RegisterScreen,
     ProcurementScreen,
-    ApplyScreen
+    ApplyScreen,
+    Logout
 }

@@ -22,6 +22,12 @@ class AuthPreferences @Inject constructor(private val dataStore: DataStore<Prefe
         }
     }
 
+    suspend fun clearAuthToken() {
+        dataStore.edit { preferences ->
+            preferences.remove(KEY_AUTH)
+        }
+    }
+
     companion object {
         private val KEY_AUTH = stringPreferencesKey("auth_token")
     }

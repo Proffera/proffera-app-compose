@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.proffera.DrawerParams
+import com.example.proffera.ui.components.navigation.MainScreen
 import com.example.proffera.ui.theme.*
 
 @Composable
@@ -142,7 +143,7 @@ fun StyleInactiveStateEnabledShowIconTrue(item: AppDrawerItemInfo<*>) {
     }
 }
 
-class NavigationItemProvider : PreviewParameterProvider<AppDrawerItemInfo<Screen>> {
+class NavigationItemProvider : PreviewParameterProvider<AppDrawerItemInfo<MainScreen>> {
     override val values = sequence {
         DrawerParams.drawerButtons.forEach { element ->
             yield(element)
@@ -152,7 +153,7 @@ class NavigationItemProvider : PreviewParameterProvider<AppDrawerItemInfo<Screen
 
 @Preview
 @Composable
-fun NavigationItemPreview(@PreviewParameter(NavigationItemProvider::class) state: AppDrawerItemInfo<Screen>) {
+fun NavigationItemPreview(@PreviewParameter(NavigationItemProvider::class) state: AppDrawerItemInfo<MainScreen>) {
     ProfferaTheme {
         AppDrawerItem(item = state, isSelected = false, isFirstItem = false, onClick = {})
     }
