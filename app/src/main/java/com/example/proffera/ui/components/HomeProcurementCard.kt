@@ -21,9 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.proffera.R
-import com.example.proffera.ui.theme.Blue
-import com.example.proffera.ui.theme.DarkOrange
-import com.example.proffera.ui.theme.LightGray
+import com.example.proffera.ui.theme.*
 
 @Composable
 fun HomeProcurement(
@@ -108,7 +106,7 @@ fun HomeProcurement(
                     )
                 }
                 Text(
-                    text = projectCost,
+                    text = formatProjectCost(projectCost),
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
@@ -133,7 +131,14 @@ fun HomeProcurement(
                             .height(height = 40.dp)
                             .padding(top = 8.dp),
                         shape = RoundedCornerShape(30.dp),
-                        colors = CardDefaults.cardColors(containerColor = Blue),
+                        colors = when (projectStatus) {
+                            "Tidak Aktif" -> CardDefaults.cardColors(containerColor = Gray)
+                            "Batal" -> CardDefaults.cardColors(containerColor = Red)
+                            "Dalam Review" -> CardDefaults.cardColors(containerColor = Gold)
+                            "Dalam Proses" -> CardDefaults.cardColors(containerColor = Blue)
+                            "Selesai" -> CardDefaults.cardColors(containerColor = Green)
+                            else -> CardDefaults.cardColors(containerColor = Gray)
+                        }
                     ) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
@@ -171,6 +176,17 @@ fun HomeProcurement(
                 }
             }
         }
+    }
+}
+
+fun formatProjectCost(cost: String): String {
+    val costValue = cost.toIntOrNull() ?: 0
+
+    return when {
+        costValue > 1_000_000_000 -> "Rp.${(costValue / 1_000_000_000)}t"
+        costValue > 100_000_000 -> "Rp.${(costValue / 100_000_000)}jt"
+        costValue > 10_000_000 -> "Rp.${(costValue / 10_000_000)}jt"
+        else -> "Rp.$costValue"
     }
 }
 

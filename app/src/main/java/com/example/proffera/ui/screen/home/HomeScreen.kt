@@ -3,9 +3,7 @@ package com.example.proffera.ui.screen.home
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -53,19 +51,25 @@ fun HomeScreen(drawerState: DrawerState, viewModel: HomeViewModel = hiltViewMode
             }
         }
     ) {
-        viewModel.procurementsState.collectAsState().value.let { uiState ->
-            when (uiState) {
-                is UiState.Loading -> {
-                    viewModel.getAllProcurements()
-                }
-                is UiState.Success -> {
-                    HomeScreenContent(
-                        listProcurement = uiState.data,
-                        scrollState = scrollState
-                    )
-                }
-                is UiState.Error -> {
-                    Log.d(TAG, "HomeScreen: Error")
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(WhiteSmoke)
+        ) {
+            viewModel.procurementsState.collectAsState().value.let { uiState ->
+                when (uiState) {
+                    is UiState.Loading -> {
+                        viewModel.getAllProcurements()
+                    }
+                    is UiState.Success -> {
+                        HomeScreenContent(
+                            listProcurement = uiState.data,
+                            scrollState = scrollState
+                        )
+                    }
+                    is UiState.Error -> {
+                        Log.d(TAG, "HomeScreen: Error")
+                    }
                 }
             }
         }
@@ -104,7 +108,7 @@ fun HomeScreenContent(
                 city = procurement.data.firstOrNull()?.data?.workingAddress ?: "",
                 projectCost = procurement.data.firstOrNull()?.data?.pagu.toString(),
                 projectDescription = procurement.data.firstOrNull()?.data?.description ?: "",
-                projectStatus = "Dalam Progress",
+                projectStatus = "Dalam Review",
                 projectDuration = "6 Bulan",
                 modifier = Modifier.padding(bottom = 16.dp)
             )
