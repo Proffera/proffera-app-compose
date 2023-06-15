@@ -1,12 +1,19 @@
 package com.example.proffera
 
+import android.app.Activity
+import android.content.ContentValues
+import android.util.Log
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,14 +27,34 @@ import com.example.proffera.ui.components.navigation.splashGraph
 import com.example.proffera.utils.UtilViewModel
 
 
+val LocalBackPressedDispatcher =
+    compositionLocalOf<OnBackPressedDispatcher> { error("No Back Dispatcher provided") }
+
 @Composable
 fun ProfferaApplication(
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     viewModel: UtilViewModel = hiltViewModel(),
 ) {
-
+    val activity = (LocalContext.current as? Activity)
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
+
+    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+
+    CompositionLocalProvider(LocalBackPressedDispatcher provides backDispatcher!!) {
+        BackHandler {
+            if (isLoggedIn == true && navController.currentBackStackEntry?.destination?.route == MainScreen.HomeScreen.name) {
+                activity?.finish()
+            } else {
+                Log.d(
+                    ContentValues.TAG,
+                    "ProfferaApplication: ${navController.currentBackStackEntry?.destination?.route}"
+                )
+                navController.navigateUp()
+            }
+        }
+    }
+
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -39,23 +66,21 @@ fun ProfferaApplication(
             ) { onUserPickedOption ->
                 when (onUserPickedOption) {
                     MainScreen.HomeScreen -> {
+                        Log.d(
+                            ContentValues.TAG,
+                            "ProfferaApplication: ${onUserPickedOption.name} Screen"
+                        )
                         navController.navigate(onUserPickedOption.name) {
                             popUpTo(NavRoutes.MainRoute.name)
-//                            {
-//                                saveState = true
-//                            }
-//                            restoreState = true
-//                            launchSingleTop = true
                         }
                     }
                     MainScreen.ProfileScreen -> {
+                        Log.d(
+                            ContentValues.TAG,
+                            "ProfferaApplication: ${onUserPickedOption.name} Screen"
+                        )
                         navController.navigate(onUserPickedOption.name) {
                             popUpTo(NavRoutes.MainRoute.name)
-//                            {
-//                                saveState = true
-//                            }
-//                            restoreState = true
-//                            launchSingleTop = true
                         }
                     }
                     MainScreen.Logout -> {
@@ -69,7 +94,8 @@ fun ProfferaApplication(
                     else -> {}
                 }
             }
-        }
+        },
+        gesturesEnabled = isLoggedIn == true
     ) {
         NavHost(
             navController,
@@ -104,16 +130,26 @@ object DrawerParams {
             R.string.drawer_bookmarks_description
         ),
         AppDrawerItemInfo(
-            MainScreen.ProfileScreen,
-            R.string.drawer_history,
-            R.drawable.ic_info,
-            R.string.drawer_history_description
-        ),
-        AppDrawerItemInfo(
             MainScreen.Logout,
             R.string.drawer_logout,
             R.drawable.ic_info,
             R.string.drawer_logout_description
         ),
     )
+}
+
+@Composable
+fun BackHandler(onBackPressed: () -> Unit) {
+    val backDispatcher = LocalBackPressedDispatcher.current
+    DisposableEffect(backDispatcher) {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+        backDispatcher.addCallback(callback)
+        onDispose {
+            callback.remove()
+        }
+    }
 }

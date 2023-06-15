@@ -1,14 +1,23 @@
 package com.example.proffera.ui.screen.login
 
+import android.app.Activity
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -27,12 +36,28 @@ import com.example.proffera.ui.theme.Dark
 import com.example.proffera.ui.theme.DarkBlue
 
 
+val LocalBackPressedDispatcher =
+    compositionLocalOf<OnBackPressedDispatcher> { error("No Back Dispatcher provided") }
+
 @Composable
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
-    LoginContent(viewModel, navController)
+    val activity = (LocalContext.current as? Activity)
+    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    CompositionLocalProvider(LocalBackPressedDispatcher provides backDispatcher!!) {
+        BackHandler {
+            if (!viewModel.isUserLoggedIn()) {
+                activity?.finish()
+            } else {
+                // Navigate back
+                navController.popBackStack()
+            }
+        }
+
+        LoginContent(viewModel, navController)
+    }
 }
 
 
@@ -121,6 +146,22 @@ fun LoginContent(viewModel: LoginViewModel, navController: NavController) {
     ) {
         if (state.isLoading) {
             CircularProgressIndicator(modifier = Modifier.size(50.dp), color = DarkBlue)
+        }
+    }
+}
+
+@Composable
+fun BackHandler(onBackPressed: () -> Unit) {
+    val backDispatcher = LocalBackPressedDispatcher.current
+    DisposableEffect(backDispatcher) {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+        backDispatcher.addCallback(callback)
+        onDispose {
+            callback.remove()
         }
     }
 }

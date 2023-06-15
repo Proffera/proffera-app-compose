@@ -55,7 +55,7 @@ class LoginViewModel @Inject constructor(
             return@launch
         }
 
-        if(email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty()) {
             state = state.copy(error = "Email and password must not be empty")
             return@launch
         }
@@ -84,6 +84,11 @@ class LoginViewModel @Inject constructor(
                 }
             }
     }
+
+    fun isUserLoggedIn(): Boolean {
+        return isLoggedIn
+    }
+
 
     fun setErrorMessage(message: String) {
         state = state.copy(error = message)
