@@ -1,8 +1,10 @@
 package com.example.proffera
 
-import androidx.compose.material3.*
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -28,59 +30,48 @@ fun ProfferaApplication(
 
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
 
-    LaunchedEffect(key1 = isLoggedIn) {
-        if (isLoggedIn == false) {
-            // User is not logged in, navigate to the LoginRoute
-            navController.navigate(NavRoutes.LoginRoute.name) {
-                popUpTo(NavRoutes.LoginRoute.name)
-                launchSingleTop = true
-            }
-        }
-    }
-
-    Surface {
-        ModalNavigationDrawer(
-            drawerState = drawerState,
-            drawerContent = {
-                AppDrawerContent(
-                    drawerState = drawerState,
-                    menuItems = DrawerParams.drawerButtons,
-                    defaultPick = MainScreen.HomeScreen
-                ) { onUserPickedOption ->
-                    when (onUserPickedOption) {
-                        MainScreen.HomeScreen -> {
-                            navController.navigate(onUserPickedOption.name) {
-                                popUpTo(NavRoutes.MainRoute.name)
-                            }
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            AppDrawerContent(
+                drawerState = drawerState,
+                menuItems = DrawerParams.drawerButtons,
+                defaultPick = MainScreen.HomeScreen
+            ) { onUserPickedOption ->
+                when (onUserPickedOption) {
+                    MainScreen.HomeScreen -> {
+                        navController.navigate(onUserPickedOption.name) {
+                            popUpTo(NavRoutes.MainRoute.name)
                         }
-                        MainScreen.ProfileScreen -> {
-                            navController.navigate(onUserPickedOption.name) {
-                                popUpTo(NavRoutes.MainRoute.name)
-                            }
-                        }
-                        MainScreen.Logout -> {
-                            viewModel.logout()
-                            navController.navigate(NavRoutes.LoginRoute.name) {
-                                popUpTo(NavRoutes.LoginRoute.name){
-                                    inclusive = true
-                                }
-                            }
-                        }
-                        else -> {}
                     }
+                    MainScreen.ProfileScreen -> {
+                        navController.navigate(onUserPickedOption.name) {
+                            popUpTo(NavRoutes.MainRoute.name)
+                        }
+                    }
+                    MainScreen.Logout -> {
+                        viewModel.logout()
+                        navController.navigate(NavRoutes.LoginRoute.name) {
+                            popUpTo(NavRoutes.LoginRoute.name) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                    else -> {}
                 }
             }
+        }
+    ) {
+        NavHost(
+            navController,
+            startDestination = if (isLoggedIn == true) NavRoutes.MainRoute.name else NavRoutes.LoginRoute.name
         ) {
-            NavHost(
-                navController,
-                startDestination = NavRoutes.LoginRoute.name
-            ) {
-                authGraph(navController)
-                mainGraph(drawerState)
-            }
+            authGraph(navController)
+            mainGraph(drawerState)
         }
     }
 }
+
 
 enum class NavRoutes {
     LoginRoute,

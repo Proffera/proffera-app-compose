@@ -19,7 +19,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField 'String', 'API_BASE_URL', '"https://proffera-development-cf-bed51.uc.r.appspot.com/api/"'
+        buildConfigField 'String', 'API_BASE_URL', '"https://proffera-api-4nurbqmk6a-et.a.run.app/api/"'
         vectorDrawables {
             useSupportLibrary true
         }

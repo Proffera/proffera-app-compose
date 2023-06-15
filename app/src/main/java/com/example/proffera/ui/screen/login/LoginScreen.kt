@@ -2,6 +2,7 @@ package com.example.proffera.ui.screen.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ import com.example.proffera.ui.components.ErrorMessage
 import com.example.proffera.ui.components.PasswordForm
 import com.example.proffera.ui.components.navigation.MainScreen
 import com.example.proffera.ui.theme.Dark
+import com.example.proffera.ui.theme.DarkBlue
 
 
 @Composable
@@ -57,7 +59,6 @@ fun LoginContent(viewModel: LoginViewModel, navController: NavController) {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-
         Surface(
             modifier = Modifier
                 .fillMaxSize()
@@ -127,6 +128,15 @@ fun LoginContent(viewModel: LoginViewModel, navController: NavController) {
                     ErrorMessage(text = it)
                 }
             }
+        }
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        if (state.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.size(50.dp), color = DarkBlue)
         }
     }
 }
