@@ -8,7 +8,7 @@ import com.example.proffera.NavRoutes
 import com.example.proffera.ui.screen.login.LoginScreen
 
 fun NavGraphBuilder.authGraph(navController: NavController) {
-    navigation(startDestination = AuthScreen.LoginScreen.name, route = NavRoutes.LoginRoute.name) {
+    navigation(startDestination = AuthScreen.LoginScreen.name, route = NavRoutes.AuthRoute.name) {
         composable(AuthScreen.LoginScreen.name) {
             LoginScreen(navController = navController)
         }

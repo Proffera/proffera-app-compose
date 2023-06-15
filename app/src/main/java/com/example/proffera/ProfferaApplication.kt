@@ -7,7 +7,6 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -17,12 +16,12 @@ import com.example.proffera.ui.components.appdrawer.AppDrawerItemInfo
 import com.example.proffera.ui.components.navigation.MainScreen
 import com.example.proffera.ui.components.navigation.authGraph
 import com.example.proffera.ui.components.navigation.mainGraph
+import com.example.proffera.ui.components.navigation.splashGraph
 import com.example.proffera.utils.UtilViewModel
 
 
 @Composable
 fun ProfferaApplication(
-    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     viewModel: UtilViewModel = hiltViewModel(),
@@ -51,8 +50,8 @@ fun ProfferaApplication(
                     }
                     MainScreen.Logout -> {
                         viewModel.logout()
-                        navController.navigate(NavRoutes.LoginRoute.name) {
-                            popUpTo(NavRoutes.LoginRoute.name) {
+                        navController.navigate(NavRoutes.AuthRoute.name) {
+                            popUpTo(NavRoutes.AuthRoute.name) {
                                 inclusive = true
                             }
                         }
@@ -64,8 +63,9 @@ fun ProfferaApplication(
     ) {
         NavHost(
             navController,
-            startDestination = if (isLoggedIn == true) NavRoutes.MainRoute.name else NavRoutes.LoginRoute.name
+            startDestination = NavRoutes.SplashRoute.name,
         ) {
+            splashGraph(navController)
             authGraph(navController)
             mainGraph(drawerState)
         }
@@ -74,9 +74,9 @@ fun ProfferaApplication(
 
 
 enum class NavRoutes {
-    LoginRoute,
+    SplashRoute,
+    AuthRoute,
     MainRoute,
-    RegisterRoute,
 }
 
 object DrawerParams {

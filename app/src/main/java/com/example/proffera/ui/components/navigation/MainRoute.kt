@@ -31,5 +31,5 @@ enum class MainScreen {
     RegisterScreen,
     ProcurementScreen,
     ApplyScreen,
-    Logout
+    Logout,
 }

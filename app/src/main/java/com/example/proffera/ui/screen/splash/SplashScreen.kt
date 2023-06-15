@@ -9,17 +9,43 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.proffera.NavRoutes
 import com.example.proffera.R
+import com.example.proffera.ui.components.navigation.MainScreen
 import com.example.proffera.ui.theme.*
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(navController: NavController, viewModel: SplashViewModel = hiltViewModel()) {
+
+    LaunchedEffect(Unit) {
+        viewModel.isLoggedIn.observeForever { isLoggedIn ->
+            if (isLoggedIn) {
+                navController.navigate(MainScreen.HomeScreen.name) {
+                    // Pop up all other screens from the back stack
+                    popUpTo(NavRoutes.MainRoute.name) {
+                        inclusive = true
+                    }
+                }
+            } else {
+                navController.navigate(NavRoutes.AuthRoute.name) {
+                    popUpTo(NavRoutes.AuthRoute.name) {
+                        inclusive = true
+                    }
+                }
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -49,7 +75,7 @@ fun SplashScreen() {
             content = {
                 // Round logo in the center
                 Image(
-                    painter = painterResource(R.drawable.logo_proffera), // Replace with your logo image resource
+                    painter = painterResource(R.drawable.logo_proffera),
                     contentDescription = "Logo",
                 )
             }
@@ -63,7 +89,7 @@ fun SplashScreen() {
 fun SplashPreview() {
     ProfferaTheme {
         Surface(color = WhiteSmoke) {
-            SplashScreen()
+            SplashScreen(navController = NavController(LocalContext.current))
         }
     }
 }

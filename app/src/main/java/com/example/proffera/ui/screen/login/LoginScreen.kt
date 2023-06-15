@@ -6,7 +6,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,13 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.proffera.NavRoutes
 import com.example.proffera.R
 import com.example.proffera.ui.components.ButtonComponent
 import com.example.proffera.ui.components.EmailForm
 import com.example.proffera.ui.components.ErrorMessage
 import com.example.proffera.ui.components.PasswordForm
-import com.example.proffera.ui.components.navigation.MainScreen
 import com.example.proffera.ui.theme.Dark
 import com.example.proffera.ui.theme.DarkBlue
 
@@ -35,19 +32,6 @@ fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
-
-    LaunchedEffect(viewModel.isLoggedIn) {
-        if (viewModel.isLoggedIn) {
-            // User is already logged in, navigate to the home screen
-            navController.navigate(MainScreen.HomeScreen.name) {
-                // Pop up all other screens from the back stack
-                popUpTo(NavRoutes.MainRoute.name) {
-                    inclusive = true
-                }
-            }
-        }
-    }
-
     LoginContent(viewModel, navController)
 }
 
