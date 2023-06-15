@@ -1,9 +1,8 @@
 package com.example.proffera.data.remote.retrofit
 
 import com.example.proffera.data.remote.response.LoginResponse
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import com.example.proffera.data.remote.response.ProcurementResponse
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -13,4 +12,11 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String
     ): LoginResponse
+
+    @GET("procurement")
+    suspend fun getAllProcurements(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int?,
+        @Query("size") size: Int?
+    ): ProcurementResponse
 }

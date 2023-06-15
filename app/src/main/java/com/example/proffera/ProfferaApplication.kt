@@ -41,11 +41,21 @@ fun ProfferaApplication(
                     MainScreen.HomeScreen -> {
                         navController.navigate(onUserPickedOption.name) {
                             popUpTo(NavRoutes.MainRoute.name)
+//                            {
+//                                saveState = true
+//                            }
+//                            restoreState = true
+//                            launchSingleTop = true
                         }
                     }
                     MainScreen.ProfileScreen -> {
                         navController.navigate(onUserPickedOption.name) {
                             popUpTo(NavRoutes.MainRoute.name)
+//                            {
+//                                saveState = true
+//                            }
+//                            restoreState = true
+//                            launchSingleTop = true
                         }
                     }
                     MainScreen.Logout -> {

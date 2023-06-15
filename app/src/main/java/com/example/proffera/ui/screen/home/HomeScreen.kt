@@ -1,5 +1,7 @@
 package com.example.proffera.ui.screen.home
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
@@ -8,25 +10,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.*
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.proffera.R
-import com.example.proffera.data.remote.model.Procurement
-import com.example.proffera.data.remote.model.dummyProcurement
+import com.example.proffera.data.remote.response.ProcurementResponse
+import com.example.proffera.ui.common.UiState
 import com.example.proffera.ui.components.HomeProcurement
 import com.example.proffera.ui.components.Search
 import com.example.proffera.ui.components.appbar.AppBar
-import com.example.proffera.ui.theme.ProfferaTheme
 import com.example.proffera.ui.theme.WhiteSmoke
 
 @Composable
-fun HomeScreen(drawerState: DrawerState) {
+fun HomeScreen(drawerState: DrawerState, viewModel: HomeViewModel = hiltViewModel()) {
     val scrollState = rememberLazyListState()
 
     val isScrolling = remember { mutableStateOf(false) }
@@ -50,14 +53,29 @@ fun HomeScreen(drawerState: DrawerState) {
             }
         }
     ) {
-        HomeScreenContent(dummyProcurement, scrollState)
+        viewModel.procurementsState.collectAsState().value.let { uiState ->
+            when (uiState) {
+                is UiState.Loading -> {
+                    viewModel.getAllProcurements()
+                }
+                is UiState.Success -> {
+                    HomeScreenContent(
+                        listProcurement = uiState.data,
+                        scrollState = scrollState
+                    )
+                }
+                is UiState.Error -> {
+                    Log.d(TAG, "HomeScreen: Error")
+                }
+            }
+        }
     }
 }
 
 
 @Composable
 fun HomeScreenContent(
-    listProcurement: List<Procurement>,
+    listProcurement: List<ProcurementResponse>,
     scrollState: LazyListState,
     modifier: Modifier = Modifier
 ) {
@@ -79,20 +97,29 @@ fun HomeScreenContent(
             )
             Search(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
         }
-        items(listProcurement, key = { it.instansiName }) { procurement ->
-            HomeProcurement(procurement)
+        items(listProcurement) { procurement ->
+            HomeProcurement(
+                projectName = procurement.data.firstOrNull()?.data?.namaPaket ?: "",
+                winnerVendor = procurement.data.firstOrNull()?.data?.namaPemenang ?: "",
+                city = procurement.data.firstOrNull()?.data?.workingAddress ?: "",
+                projectCost = procurement.data.firstOrNull()?.data?.pagu.toString(),
+                projectDescription = procurement.data.firstOrNull()?.data?.description ?: "",
+                projectStatus = "Dalam Progress",
+                projectDuration = "6 Bulan",
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
         }
     }
 }
 
 
-@Composable
-@Preview(showBackground = true, device = Devices.PIXEL_4)
-fun HomeScreenPreview() {
-    ProfferaTheme() {
-        Surface(color = WhiteSmoke) {
-            HomeScreen(drawerState = rememberDrawerState(DrawerValue.Closed))
-        }
-
-    }
-}
+//@Composable
+//@Preview(showBackground = true, device = Devices.PIXEL_4)
+//fun HomeScreenPreview() {
+//    ProfferaTheme() {
+//        Surface(color = WhiteSmoke) {
+//            HomeScreen(drawerState = rememberDrawerState(DrawerValue.Closed))
+//        }
+//
+//    }
+//}

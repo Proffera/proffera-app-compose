@@ -124,10 +124,3 @@ fun LoginContent(viewModel: LoginViewModel, navController: NavController) {
         }
     }
 }
-
-
-//@Composable
-//@Preview(showBackground = true)
-//fun LoginScreenPreview() {
-//    LoginScreen()
-//}

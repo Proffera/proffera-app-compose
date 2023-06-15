@@ -18,17 +18,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.proffera.R
-import com.example.proffera.data.remote.model.Procurement
-import com.example.proffera.ui.theme.*
+import com.example.proffera.ui.theme.Blue
+import com.example.proffera.ui.theme.DarkOrange
+import com.example.proffera.ui.theme.LightGray
 
 @Composable
 fun HomeProcurement(
-    procurement: Procurement,
+    projectName: String,
+    winnerVendor: String,
+    city: String,
+    projectCost: String,
+    projectDescription: String,
+    projectStatus: String,
+    projectDuration: String,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -52,7 +57,7 @@ fun HomeProcurement(
                         .width(width = 285.dp)
                 ) {
                     Image(
-                        painter = painterResource(procurement.pictureProject),
+                        painter = painterResource(R.drawable.dikti),
                         contentDescription = "Project Picture",
                         modifier = Modifier
                             .size(size = 50.dp)
@@ -65,14 +70,14 @@ fun HomeProcurement(
                     )
                     Column {
                         Text(
-                            text = procurement.projectName,
+                            text = projectName,
                             style = MaterialTheme.typography.titleLarge,
                             textAlign = TextAlign.Start,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
                         )
                         Text(
-                            text = "${procurement.instansiName} - ${procurement.city}",
+                            text = "$winnerVendor - $city",
                             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
                             color = LightGray,
                             textAlign = TextAlign.Start,
@@ -103,13 +108,13 @@ fun HomeProcurement(
                     )
                 }
                 Text(
-                    text = procurement.costEstimate,
+                    text = projectCost,
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
 //            Description
             Text(
-                text = procurement.description,
+                text = projectDescription,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
@@ -135,7 +140,7 @@ fun HomeProcurement(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = procurement.status,
+                                text = projectStatus,
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     fontWeight = FontWeight.ExtraBold,
                                     fontSize = 12.sp
@@ -159,7 +164,7 @@ fun HomeProcurement(
                             .height(24.dp)
                     )
                     Text(
-                        text = procurement.deadlineEstimate,
+                        text = projectDuration,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(start = 8.dp, bottom = 2.dp)
                     )
@@ -169,24 +174,24 @@ fun HomeProcurement(
     }
 }
 
-@Composable
-@Preview(showBackground = true, device = Devices.PIXEL_4)
-fun HomeProcurementPreview() {
-    ProfferaTheme {
-        Surface(color = WhiteSmoke) {
-            HomeProcurement(
-                procurement = Procurement(
-                    pictureProject = R.drawable.dikti,
-                    instansiName = "Kemristekdikti",
-                    projectName = "Pembangunan Technopark",
-                    city = "Jakarta",
-                    costEstimate = "Rp.500jt",
-                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. t enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    status = "Dalam Proses",
-                    deadlineEstimate = "6 Bulan",
-                ),
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-    }
-}
+//@Composable
+//@Preview(showBackground = true, device = Devices.PIXEL_4)
+//fun HomeProcurementPreview() {
+//    ProfferaTheme {
+//        Surface(color = WhiteSmoke) {
+//            HomeProcurement(
+//                procurement = Procurement(
+//                    pictureProject = R.drawable.dikti,
+//                    instansiName = "Kemristekdikti",
+//                    projectName = "Pembangunan Technopark",
+//                    city = "Jakarta",
+//                    costEstimate = "Rp.500jt",
+//                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. t enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+//                    status = "Dalam Proses",
+//                    deadlineEstimate = "6 Bulan",
+//                ),
+//                modifier = Modifier.padding(16.dp)
+//            )
+//        }
+//    }
+//}
