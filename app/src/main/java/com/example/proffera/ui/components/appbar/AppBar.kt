@@ -2,6 +2,7 @@ package com.example.proffera.ui.components.appbar
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -18,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.proffera.R
+import com.example.proffera.ui.theme.DarkOrange
 import com.example.proffera.ui.theme.WhiteSmoke
 import kotlinx.coroutines.launch
 
@@ -89,13 +91,14 @@ private fun CircleImage(onClick: () -> Unit) {
     // Replace this with your own implementation of the circle image
     IconButton(onClick = onClick) {
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.ic_profile),
             contentDescription = stringResource(id = R.string.project_picture),
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .height(50.dp)
                 .width(50.dp)
                 .clip(CircleShape)
+                .border(1.dp, DarkOrange, CircleShape)
         )
     }
 }

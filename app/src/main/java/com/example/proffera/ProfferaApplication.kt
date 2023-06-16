@@ -3,7 +3,6 @@ package com.example.proffera
 import android.app.Activity
 import android.content.ContentValues
 import android.util.Log
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
@@ -11,7 +10,10 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -136,20 +138,4 @@ object DrawerParams {
             R.string.drawer_logout_description
         ),
     )
-}
-
-@Composable
-fun BackHandler(onBackPressed: () -> Unit) {
-    val backDispatcher = LocalBackPressedDispatcher.current
-    DisposableEffect(backDispatcher) {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                onBackPressed()
-            }
-        }
-        backDispatcher.addCallback(callback)
-        onDispose {
-            callback.remove()
-        }
-    }
 }
