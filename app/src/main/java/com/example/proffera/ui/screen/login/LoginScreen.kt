@@ -1,7 +1,6 @@
 package com.example.proffera.ui.screen.login
 
 import android.app.Activity
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
@@ -12,7 +11,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -150,18 +148,3 @@ fun LoginContent(viewModel: LoginViewModel, navController: NavController) {
     }
 }
 
-@Composable
-fun BackHandler(onBackPressed: () -> Unit) {
-    val backDispatcher = LocalBackPressedDispatcher.current
-    DisposableEffect(backDispatcher) {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                onBackPressed()
-            }
-        }
-        backDispatcher.addCallback(callback)
-        onDispose {
-            callback.remove()
-        }
-    }
-}

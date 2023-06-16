@@ -12,7 +12,6 @@ import com.example.proffera.data.rules.validateEmail
 import com.example.proffera.data.rules.validatePassword
 import com.example.proffera.ui.components.navigation.MainScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -60,8 +59,8 @@ class LoginViewModel @Inject constructor(
             return@launch
         }
 
+        state = state.copy(isLoading = true)
         authRepo.loginWithEmailPassword(email, password)
-            .onStart { state = state.copy(isLoading = true) } // Set loading state
             .collect { result ->
                 state = state.copy(isLoading = false) // Clear loading state
 
@@ -77,8 +76,6 @@ class LoginViewModel @Inject constructor(
                             inclusive = true
                         }
                     }
-
-
                 }.onFailure { exception ->
                     state = state.copy(error = "Login failed: ${exception.message}")
                 }

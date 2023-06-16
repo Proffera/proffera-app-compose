@@ -16,7 +16,5 @@ interface ApiService {
     @GET("procurement")
     suspend fun getAllProcurements(
         @Header("Authorization") token: String,
-        @Query("page") page: Int?,
-        @Query("size") size: Int?
     ): ProcurementResponse
 }

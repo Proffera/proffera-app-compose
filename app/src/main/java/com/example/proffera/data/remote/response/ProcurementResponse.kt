@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 data class ProcurementResponse(
 
-	@field:SerializedName("msg")
+	@field:SerializedName("message")
 	val msg: String,
 
 	@field:SerializedName("data")

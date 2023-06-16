@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.proffera.R
-import com.example.proffera.data.remote.response.ProcurementResponse
+import com.example.proffera.data.remote.response.DataItem
 import com.example.proffera.ui.common.UiState
 import com.example.proffera.ui.components.HomeProcurement
 import com.example.proffera.ui.components.Search
@@ -79,7 +79,7 @@ fun HomeScreen(drawerState: DrawerState, viewModel: HomeViewModel = hiltViewMode
 
 @Composable
 fun HomeScreenContent(
-    listProcurement: List<ProcurementResponse>,
+    listProcurement: List<DataItem>,
     scrollState: LazyListState,
     modifier: Modifier = Modifier
 ) {
@@ -103,11 +103,11 @@ fun HomeScreenContent(
         }
         items(listProcurement) { procurement ->
             HomeProcurement(
-                projectName = procurement.data.firstOrNull()?.data?.namaPaket ?: "",
-                winnerVendor = procurement.data.firstOrNull()?.data?.namaPemenang ?: "",
-                city = procurement.data.firstOrNull()?.data?.workingAddress ?: "",
-                projectCost = procurement.data.firstOrNull()?.data?.pagu.toString(),
-                projectDescription = procurement.data.firstOrNull()?.data?.description ?: "",
+                projectName = procurement.data.namaPaket,
+                winnerVendor = procurement.data.namaPemenang ,
+                city = procurement.data.workingAddress,
+                projectCost = procurement.data.pagu.toString(),
+                projectDescription = procurement.data.description ?: "",
                 projectStatus = "Dalam Review",
                 projectDuration = "6 Bulan",
                 modifier = Modifier.padding(bottom = 16.dp)
