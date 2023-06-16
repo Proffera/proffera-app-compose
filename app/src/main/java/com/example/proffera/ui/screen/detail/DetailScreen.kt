@@ -1,35 +1,76 @@
 package com.example.proffera.ui.screen.detail
 
+import android.content.ContentValues
+import android.util.Log
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.proffera.R
+import com.example.proffera.ui.common.UiState
 import com.example.proffera.ui.components.ApplyButton
 import com.example.proffera.ui.components.DownloadButton
 import com.example.proffera.ui.components.ProcurementDescCard
 import com.example.proffera.ui.theme.*
 
 @Composable
-fun DetailScreen() {
+fun DetailScreen(
+    projectId: String,
+    viewModel: DetailViewModel = hiltViewModel(),
+    navigateBack: () -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(WhiteSmoke)
+    ) {
+        viewModel.detailProcurementsState.collectAsState().value.let { uiState ->
+            when (uiState) {
+                is UiState.Loading -> {
+                    viewModel.getDetailProcurement(projectId)
+                }
+                is UiState.Success -> {
+                    val data = uiState.data
+                    DetailContent(
+                        data.data.namaPemenang,
+                        data.data.namaPaket,
+                        R.drawable.dikti,
+                        "Kota XYZ",
+                        data.data.description,
+                        "01.692.131.4-073.000",
+                        data.data.pagu.toString(),
+                        "Juli 2023 - Desember 2023",
+                        "Tinggi",
+                        "Dalam Review",
+                        onBackClick = navigateBack,
+                        onApplyClick = {},
+                        onDownloadClick = {},
+                    )
+                }
+                is UiState.Error -> {
+                    Log.d(ContentValues.TAG, "DetailScreen: Error")
+                }
+            }
+        }
+    }
 
 }
 
@@ -105,6 +146,8 @@ fun DetailContent(
                         Text(
                             text = projectName,
                             style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(horizontal = 25.dp)
                         )
                         Text(
                             text = "$agencyName - $projectLocation",

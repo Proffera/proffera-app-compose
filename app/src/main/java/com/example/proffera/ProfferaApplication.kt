@@ -103,7 +103,7 @@ fun ProfferaApplication(
         ) {
             splashGraph(navController)
             authGraph(navController)
-            mainGraph(drawerState)
+            mainGraph(drawerState, navController)
         }
     }
 }

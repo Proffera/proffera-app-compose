@@ -3,6 +3,7 @@ package com.example.proffera.ui.screen.home
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -27,7 +28,11 @@ import com.example.proffera.ui.components.appbar.AppBar
 import com.example.proffera.ui.theme.WhiteSmoke
 
 @Composable
-fun HomeScreen(drawerState: DrawerState, viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(
+    drawerState: DrawerState,
+    viewModel: HomeViewModel = hiltViewModel(),
+    navigateToDetail: (String) -> Unit
+) {
     val scrollState = rememberLazyListState()
 
     val isScrolling = remember { mutableStateOf(false) }
@@ -64,7 +69,8 @@ fun HomeScreen(drawerState: DrawerState, viewModel: HomeViewModel = hiltViewMode
                     is UiState.Success -> {
                         HomeScreenContent(
                             listProcurement = uiState.data,
-                            scrollState = scrollState
+                            scrollState = scrollState,
+                            onClickDetail = navigateToDetail
                         )
                     }
                     is UiState.Error -> {
@@ -81,6 +87,7 @@ fun HomeScreen(drawerState: DrawerState, viewModel: HomeViewModel = hiltViewMode
 fun HomeScreenContent(
     listProcurement: List<DataItem>,
     scrollState: LazyListState,
+    onClickDetail: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -104,13 +111,18 @@ fun HomeScreenContent(
         items(listProcurement) { procurement ->
             HomeProcurement(
                 projectName = procurement.data.namaPaket,
-                winnerVendor = procurement.data.namaPemenang ,
+                winnerVendor = procurement.data.namaPemenang,
                 city = procurement.data.workingAddress,
                 projectCost = procurement.data.pagu.toString(),
                 projectDescription = procurement.data.description ?: "",
                 projectStatus = "Dalam Review",
                 projectDuration = "6 Bulan",
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier
+                    .clickable {
+                        Log.d(TAG, "HomeScreenContent: ${procurement.id}")
+                        onClickDetail(procurement.id)
+                    }
+                    .padding(bottom = 16.dp)
             )
         }
     }
